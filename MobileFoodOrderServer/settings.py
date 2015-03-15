@@ -1,5 +1,5 @@
 """
-Django settings for untitled project.
+Django settings for MobileFoodOrderServer project.
 
 For more information on this file, see
 https://docs.djangoproject.com/en/1.7/topics/settings/
@@ -17,7 +17,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 # See https://docs.djangoproject.com/en/1.7/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'af!jy04t*g9ta5jlvwww*!228@0#wgo(4v9ix0^afg0=@+_wf^'
+SECRET_KEY = '$6gqjkg1!57(@o6bs#tki8jt2@0p4z_ed@spnfrb@bh8lxqw$n'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -36,6 +36,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'order',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -48,9 +49,9 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
-ROOT_URLCONF = 'untitled.urls'
+ROOT_URLCONF = 'MobileFoodOrderServer.urls'
 
-WSGI_APPLICATION = 'untitled.wsgi.application'
+WSGI_APPLICATION = 'MobileFoodOrderServer.wsgi.application'
 
 
 # Database
