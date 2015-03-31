@@ -12,6 +12,7 @@ class IndexView(generic.View):
         temp_text = "Hello"
         context = {
             'temp_text': temp_text,
+            'a': 1123
         }
         return render(
             request,
