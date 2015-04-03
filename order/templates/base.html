@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+{% load static from staticfiles %}
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>{{ html_title }}</title>
+    <link rel="stylesheet" type="text/css" href="{% static '/static/bootstrap-3.3.2/css/bootstrap.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static '/static/bootstrap-3.3.2/css/bootstrap-theme.css' %}" />
+{#    <link rel="stylesheet" type="text/css" href="{% static 'order/static/css/style.css' %}" />#}
+{#    <script type="text/javascript" src="{% static 'order/static/javascript/script.js' %}"></script>#}
+</head>
+
+{% block content %}
+
+{% endblock %}
+</html>

@@ -1,3 +1,5 @@
+#coding=utf8
+
 from django.shortcuts import render
 from django.views import generic
 
@@ -9,10 +11,13 @@ class IndexView(generic.View):
 
     def get(self, request):
 
-        temp_text = "Hello"
+        html_title = "Hello"
+        html_title_cn = "您好"
+        # context = {
+        #     'html_title': html_title,
+        # }
         context = {
-            'temp_text': temp_text,
-            'a': 1123
+            'html_title': html_title_cn,
         }
         return render(
             request,

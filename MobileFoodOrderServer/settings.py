@@ -30,13 +30,13 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = (
-    'django.contrib.admin',
-    'django.contrib.auth',
+    # 'django.contrib.admin',
+    # 'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'bootstrap3',
+    # 'bootstrap3',
     'order',
 )
 
@@ -86,6 +86,8 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-STATIC_ROOT = '/'
+STATIC_ROOT = '/static/'
 
 TEMPLATE_DIRS = [os.path.join(BASE_DIR), 'templates']
+
+STATICFILES_DIRS = [os.path.join(BASE_DIR), 'static']
