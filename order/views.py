@@ -13,10 +13,12 @@ class IndexView(generic.View):
 
     def get(self, request):
 
+        url_name = "home"
         html_title = "Homepage"
         context = {
             'html_title': html_title,
             'pro': ProjectInfo.data,
+            'url_name': url_name,
         }
         return render(
             request,
@@ -29,10 +31,12 @@ class UserView(generic.View):
 
     def get(self, request):
 
+        url_name = "user"
         html_title = "User"
         context = {
             'html_title': html_title,
             'pro': ProjectInfo.data,
+            'url_name': url_name,
         }
         return render(
             request,
@@ -45,10 +49,12 @@ class OrderView(generic.View):
 
     def get(self, request):
 
+        url_name = "order"
         html_title = "Order"
         context = {
             'html_title': html_title,
             'pro': ProjectInfo.data,
+            'url_name': url_name,
         }
         return render(
             request,
@@ -61,10 +67,12 @@ class InfoView(generic.View):
 
     def get(self, request):
 
+        url_name = "info"
         html_title = "Info"
         context = {
             'html_title': html_title,
             'pro': ProjectInfo.data,
+            'url_name': url_name,
         }
         return render(
             request,
