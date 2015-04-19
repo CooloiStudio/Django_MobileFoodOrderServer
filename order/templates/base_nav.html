@@ -1,7 +1,5 @@
 {% extends 'base.html' %}
 {% block content %}
-
-<body>
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
@@ -18,10 +16,10 @@
                     <li id="nav_home" class="">
                         <a href="/">Home</a>
                     </li>
-                    <li>
+                    <li id="nav_order">
                         <a href="/order">Order</a>
                     </li>
-                    <li>
+                    <li id="nav_info">
                         <a href="/info">Infomation</a>
                     </li>
                 </ul>
@@ -42,10 +40,7 @@
             </div>
         </div>
     </div>
-</body>
 
-
-{% block nav %}{% endblock %}
-
+{% block body %}{% endblock %}
 
 {% endblock %}
