@@ -1,0 +1,15 @@
+.css_table
+{
+    display: table;
+}
+
+.css_tr
+{
+    display: table-row;
+}
+
+.css_td
+{
+    display: table-cell;
+    padding: 5px 5px 0 0;
+}

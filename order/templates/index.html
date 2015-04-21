@@ -1,5 +1,8 @@
-{% extends 'base_nav.html' %}
-{% block body %}
+{% extends 'base.html' %}
+{% block nav %}
+    {% include 'base_nav.html' %}
+{% endblock %}
+{% block content %}
     <div class="jumbotron">
         <div class="container">
             <h2>{{ html_title }}</h2>
