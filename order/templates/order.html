@@ -2,3 +2,17 @@
 {% block nav %}
     {% include 'base_nav.html' %}
 {% endblock %}
+
+{% block content%}
+    <div class="first_div">
+    <div class="jumbotron">
+        <div class="container">
+            <h2>{{ html_title }}</h2>
+            {% if user.is_authenticated %}
+            {% else %}
+                <p>请登录</p>
+            {% endif %}
+        </div>
+    </div>
+    </div>
+{% endblock %}

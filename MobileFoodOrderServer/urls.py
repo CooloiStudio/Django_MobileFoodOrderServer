@@ -34,4 +34,7 @@ urlpatterns = patterns('',
 
     # ex: /regist
     url(r'^register/$', views.register, name='register'),
+
+    # ex: /clientlogin
+    url(r'^clientlogin/$', views.clientlogin, name='clientlogin'),
 )

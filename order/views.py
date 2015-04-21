@@ -128,3 +128,11 @@ def register(request):
         return HttpResponseRedirect(reverse('user'))
     if request.method == 'GET':
         return HttpResponseRedirect(reverse('regist'))
+
+def clientlogin(request):
+    if request.method == 'GET':
+        print request.GET
+        return HttpResponse("123")
+    if request.method == 'POST':
+        print request.POST
+        return HttpResponse("POST")

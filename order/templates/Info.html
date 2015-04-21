@@ -5,9 +5,11 @@
 
 {% block content %}
     {% if user.is_authenticated %}
-    <div class="jumbotron">
-        <div class="container">
-            <h2>{{ html_title }}</h2>
+    <div class="first_div">
+        <div class="jumbotron">
+            <div class="container">
+                <h2>{{ html_title }}</h2>
+            </div>
         </div>
     </div>
 
@@ -68,9 +70,11 @@
     </div>
     </div>
     {% else %}
-    <div class="jumbotron">
-        <div class="container">
-            <h2>请登录</h2>
+    <div class="container first_div">
+        <div class="jumbotron ">
+            <div class="container">
+                <h2>请登录</h2>
+            </div>
         </div>
     </div>
     <form class="form_signin" method="post" action="{% url 'login' %}">
