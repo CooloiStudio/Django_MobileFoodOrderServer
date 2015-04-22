@@ -1,6 +1,6 @@
 #coding=utf-8
 
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponseRedirect, HttpResponse, StreamingHttpResponse
 from django.core.urlresolvers import reverse
 from django.shortcuts import render
 from django.views import generic
@@ -8,6 +8,9 @@ from django.contrib import auth
 from django.contrib.auth.models import User
 
 from models import ProjectInfo
+
+from django.views.decorators.csrf import csrf_protect
+
 
 # Create your views here.
 
@@ -29,24 +32,6 @@ class IndexView(generic.View):
             self.template_name,
             context
         )
-
-# class UserView(generic.View):
-#     template_name = 'order/templates/regist.html'
-#
-#     def get(self, request):
-#
-#         url_name = "user"
-#         html_title = "用户中心"
-#         context = {
-#             'html_title': html_title,
-#             'pro': ProjectInfo.data,
-#             'url_name': url_name,
-#         }
-#         return render(
-#             request,
-#             self.template_name,
-#             context
-#         )
 
 class RegistView(generic.View):
     template_name = 'order/templates/regist.html'
@@ -123,16 +108,8 @@ def register(request):
         username = request.POST['username']
         email = request.POST['email']
         password = request.POST['password']
-        print username, email, password
+        # print username, email, password
         print User.objects.create_user(username, email, password)
         return HttpResponseRedirect(reverse('user'))
     if request.method == 'GET':
         return HttpResponseRedirect(reverse('regist'))
-
-def clientlogin(request):
-    if request.method == 'GET':
-        print request.GET
-        return HttpResponse("123")
-    if request.method == 'POST':
-        print request.POST
-        return HttpResponse("POST")

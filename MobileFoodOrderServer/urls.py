@@ -2,6 +2,7 @@ from django.conf.urls import patterns, include, url
 from django.contrib import admin
 
 from order import views
+from order import client
 
 urlpatterns = patterns('',
     # Examples:
@@ -36,5 +37,5 @@ urlpatterns = patterns('',
     url(r'^register/$', views.register, name='register'),
 
     # ex: /clientlogin
-    url(r'^clientlogin/$', views.clientlogin, name='clientlogin'),
+    url(r'^clientlogin/$', client.clientlogin, name='clientlogin'),
 )
