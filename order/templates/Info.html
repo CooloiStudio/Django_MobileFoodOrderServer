@@ -14,60 +14,82 @@
     </div>
 
     <div class="container">
-    <div class="css_table">
-        <div class="css_tr">
-            <div class="css_td">
-                <h4>
-                    <span class="label label-default">项目</span>
-                </h4>
+    <form class="form_signin" action="{% url 'changepw' %}" method="post">
+        <div class="css_table">
+            <div class="css_tr">
+                <div class="css_td">
+                    <h4>
+                        <span class="label label-default">项目</span>
+                    </h4>
+                </div>
+                <div class="css_td">
+                    <h4>
+                        <span class="label label-info">数据</span>
+                    </h4>
+                </div>
             </div>
-            <div class="css_td">
-                <h4>
-                    <span class="label label-info">数据</span>
-                </h4>
+            <div class="css_tr">
+                <div class="css_td">
+                    用户名
+                </div>
+                <div class="css_td">
+                    {{ user.username }}
+                </div>
+            </div>
+            <div class="css_tr">
+                <div class="css_td">
+                    学号
+                </div>
+                <div class="css_td">
+                    {{ user.email }}
+                </div>
+            </div>
+            <div class="css_tr">
+                <div class="css_td">
+                    管理员
+                </div>
+                <div class="css_td">
+                    {{ user.is_superuser }}
+                </div>
+            </div>
+            <div class="css_tr">
+                <div class="css_td">
+                    最近登录
+                </div>
+                <div class="css_td">
+                    {{ user.last_login }}
+                </div>
+            </div>
+            <div class="css_tr">
+                <div class="css_td">
+                    注册时间
+                </div>
+                <div class="css_td">
+                    {{ user.date_joined }}
+                </div>
+            </div>
+            <div class="css_tr">
+                <div class="css_td">
+                    <h4>
+                        <span class="label label-default">修改密码</span>
+                    </h4>
+                </div>
+            </div>
+            <div class="css_tr">
+                <div class="css_td">
+                    <input name="password" class="form-control" type="password" placeholder="当前密码"/>
+                </div>
+                <div class="css_td">
+                    <input name="newpw" class="form-control" type="password" placeholder="新密码"/>
+                </div>
+            </div>
+            <div class="css_tr">
+                <div class="css_td">
+                    <button class="btn btn-danger" type="submit">确认修改</button>
+                </div>
             </div>
         </div>
-        <div class="css_tr">
-            <div class="css_td">
-                用户名
-            </div>
-            <div class="css_td">
-                {{ user.username }}
-            </div>
-        </div>
-        <div class="css_tr">
-            <div class="css_td">
-                学号
-            </div>
-            <div class="css_td">
-                {{ user.email }}
-            </div>
-        </div>
-        <div class="css_tr">
-            <div class="css_td">
-                管理员
-            </div>
-            <div class="css_td">
-                {{ user.is_superuser }}
-            </div>
-        </div>
-        <div class="css_tr">
-            <div class="css_td">
-                最近登录
-            </div>
-            <div class="css_td">
-                {{ user.last_login }}
-            </div>
-        </div>
-        <div class="css_tr">
-            <div class="css_td">
-                注册时间
-            </div>
-            <div class="css_td">
-                {{ user.date_joined }}
-            </div>
-        </div>
-    </div>
+    </form>
     </div>
     {% else %}
     <div class="container first_div">

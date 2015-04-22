@@ -11,7 +11,7 @@ from django.contrib.auth.models import User
 
 import json
 
-def clientlogin(request):
+def login(request):
     if request.method == 'GET':
         return HttpResponse("Get")
     if request.method == 'POST':
@@ -30,5 +30,30 @@ def clientlogin(request):
                 'response': 'error',
                 'username': request.user.username
             }
+        return HttpResponse(json.dumps(response_data), content_type='text/json')
+
+def changepw(request):
+    if request.method == 'GET':
+        return HttpResponse()
+
+def logout(request):
+    if request.method == 'GET':
         auth.logout(request)
+        response_data = {
+            'response': 'succeed'
+        }
+        return HttpResponse(json.dumps(response_data), content_type='text/json')
+
+def userinfo(request):
+    if request.method == 'GET':
+        print request.user
+        response_data = {
+            'response': 'succeed',
+            'user': [
+                request.user.username,
+                request.user.email,
+                str(request.user.is_superuser),
+                str(request.user.last_login)
+                ]
+        }
         return HttpResponse(json.dumps(response_data), content_type='text/json')

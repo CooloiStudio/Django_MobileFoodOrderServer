@@ -15,20 +15,22 @@ urlpatterns = patterns('',
     # ex: /
     url(r'^$', views.IndexView.as_view(), name="home"),
 
-    # ex: /user
-    # url(r'^user/$', views.UserView.as_view(), name='user'),
-
     # ex: /regist
     url(r'^regist/$', views.RegistView.as_view(), name='regist'),
 
     # ex: /order
     url(r'^order/$', views.OrderView.as_view(), name='order'),
 
+    # ex: /accounts/login
+    (r'^accounts/login/$', views.InfoView.as_view()),
     # ex: /info
     url(r'^info/$', views.InfoView.as_view(), name='info'),
 
     # ex: /login
     url(r'^login/$', views.login, name='login'),
+
+    # ex: /changepw
+    url(r'^changepw', views.changepw, name='changepw'),
 
     # ex: /logout
     url(r'^logout/$', views.logout, name='logout'),
@@ -37,5 +39,11 @@ urlpatterns = patterns('',
     url(r'^register/$', views.register, name='register'),
 
     # ex: /clientlogin
-    url(r'^clientlogin/$', client.clientlogin, name='clientlogin'),
+    url(r'^clientlogin/$', client.login, name='clientlogin'),
+
+    # ex: /clientlogout
+    url(r'^clientlogout/$', client.logout, name='clientlogout'),
+
+    # ex: /cilentuserinfo
+    url(r'^clientuserinfo/$', client.userinfo, name='clientuserinfo'),
 )

@@ -10,6 +10,7 @@ from django.contrib.auth.models import User
 from models import ProjectInfo
 
 from django.views.decorators.csrf import csrf_protect
+from django.contrib.auth.decorators import login_required
 
 
 # Create your views here.
@@ -37,7 +38,6 @@ class RegistView(generic.View):
     template_name = 'order/templates/regist.html'
 
     def get(self, request):
-
         url_name = "regist"
         html_title = "注册中心"
         context = {
@@ -51,11 +51,11 @@ class RegistView(generic.View):
             context
         )
 
+# @login_required(login_url='/login')
 class OrderView(generic.View):
     template_name = 'order/templates/order.html'
 
     def get(self, request):
-
         url_name = "order"
         html_title = "订单中心"
         context = {
@@ -99,6 +99,18 @@ def login(request):
         else:
             return HttpResponseRedirect(reverse('info'))
 
+def changepw(request):
+    if request.method == 'POST':
+        username = request.user.username
+        password = request.POST['password']
+        newpw = request.POST['newpw']
+        user = auth.authenticate(username=username, password=password)
+        user.set_password(newpw)
+        user.save()
+        return HttpResponseRedirect(reverse('info'))
+    else:
+        return HttpResponseRedirect(reverse('info'))
+
 def logout(request):
     auth.logout(request)
     return HttpResponseRedirect(reverse('home'))
@@ -108,8 +120,12 @@ def register(request):
         username = request.POST['username']
         email = request.POST['email']
         password = request.POST['password']
-        # print username, email, password
-        print User.objects.create_user(username, email, password)
-        return HttpResponseRedirect(reverse('user'))
+
+        # print username, email, password, is_superuser
+        user = User.objects.create_user(username, email, password)
+        if request.POST.get('is_superuser') != None:
+            user.is_superuser = True
+            user.save()
+        return HttpResponseRedirect(reverse('info'))
     if request.method == 'GET':
         return HttpResponseRedirect(reverse('regist'))
