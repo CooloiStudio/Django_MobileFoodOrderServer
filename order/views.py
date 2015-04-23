@@ -7,7 +7,10 @@ from django.views import generic
 from django.contrib import auth
 from django.contrib.auth.models import User
 
-from models import ProjectInfo
+import data
+import forms
+import models
+from MobileFoodOrderServer import settings
 
 from django.views.decorators.csrf import csrf_protect
 from django.contrib.auth.decorators import login_required
@@ -23,10 +26,13 @@ class IndexView(generic.View):
 
         url_name = "home"
         html_title = "老干爹订餐"
+        canteen_list = list(models.Canteen.objects.all())
         context = {
             'html_title': html_title,
-            'pro': ProjectInfo.data,
+            'pro': data.ProjectInfo.data,
             'url_name': url_name,
+            'canteen_list': canteen_list,
+            'STATIC_URL': settings.STATIC_URL
         }
         return render(
             request,
@@ -42,7 +48,7 @@ class RegistView(generic.View):
         html_title = "注册中心"
         context = {
             'html_title': html_title,
-            'pro': ProjectInfo.data,
+            'pro': data.ProjectInfo.data,
             'url_name': url_name,
         }
         return render(
@@ -60,7 +66,7 @@ class OrderView(generic.View):
         html_title = "订单中心"
         context = {
             'html_title': html_title,
-            'pro': ProjectInfo.data,
+            'pro': data.ProjectInfo.data,
             'url_name': url_name,
         }
         return render(
@@ -78,7 +84,7 @@ class InfoView(generic.View):
         html_title = "信息中心"
         context = {
             'html_title': html_title,
-            'pro': ProjectInfo.data,
+            'pro': data.ProjectInfo.data,
             'url_name': url_name,
         }
         return render(

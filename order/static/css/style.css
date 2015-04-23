@@ -3,3 +3,37 @@
     max-width: 400px;
     padding: 15px;
 }
+
+.form_upload
+{
+    margin: 0 auto;
+    width: 800px;
+    padding: 15px;
+}
+
+.form_upload p
+{
+    display: table-row;
+}
+
+.form_upload p label
+{
+    display: table-cell;
+    padding: 5px 5px 0 0;
+    vertical-align: middle;
+    text-align: center;
+}
+
+.form_upload p input
+{
+    display: table-cell;
+    padding: 5px 5px 0 0;
+}
+
+.form_upload p textarea
+{
+    display: table-cell;
+    margin: 5px 5px 0 0;
+    height: 100px;
+    width: 500px;
+}
