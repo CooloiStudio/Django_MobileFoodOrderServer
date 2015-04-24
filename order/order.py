@@ -25,8 +25,16 @@ class OrderView(generic.View):
             'pro': data.ProjectInfo.data,
             'url_name': url_name,
         }
+        if request.GET['food']:
+            print request.GET['food']
         return render(
             request,
             self.template_name,
             context
         )
+
+def create(request):
+    if request.method == 'GET':
+        return HttpResponse("error")
+
+    return HttpResponse("None")

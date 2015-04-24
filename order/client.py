@@ -32,6 +32,7 @@ def register(request):
         return HttpResponse(json.dumps(response_data), content_type='text/json')
 
 def login(request):
+    print request.POST
     if request.method == 'GET':
         return HttpResponse("Get")
     if request.method == 'POST':
@@ -50,7 +51,9 @@ def login(request):
                 'response': 'error',
                 'username': request.user.username
             }
-        return HttpResponse(json.dumps(response_data), content_type='text/json')
+        response_data = json.dumps(response_data)
+        print response_data
+        return HttpResponse(response_data, content_type='text/json')
 
 def changepw(request):
     if request.method == 'GET':
@@ -65,9 +68,9 @@ def logout(request):
         return HttpResponse(json.dumps(response_data), content_type='text/json')
 
 def userinfo(request):
-    print request
+    print "request.POST", request.POST
     if request.method == 'GET':
-        print request.user
+        print "GET request.user", request.user
         response_data = {
             'response': 'succeed',
             'user': [
@@ -77,9 +80,25 @@ def userinfo(request):
                 str(request.user.last_login)
                 ]
         }
-        return HttpResponse(json.dumps(response_data), content_type='text/json')
+    elif request.POST:
+        data = json.loads(request.body)
+        username = data['username']
+        password = data['password']
+        user = auth.authenticate(username=username, password=password)
+        response_data = {
+            'response': 'succeed',
+            'user': [
+                user.username,
+                user.email,
+                str(user.is_superuser),
+                str(user.last_login)
+                ]
+        }
+    response_data = json.dumps(response_data)
+    return HttpResponse(response_data, content_type='text/json')
 
 def food(request):
+    print request.user
     if request.method == 'GET':
         choose = int(request.GET['choose'])
         response_data = {
@@ -91,6 +110,7 @@ def food(request):
             food_list = list(models.FoodModel.objects.all())
             for p in food_list:
                 food_data = {
+                    'id': p.id,
                     'name': p.name,
                     'img': str(p.img),
                     'canteen': p.canteen.name,
@@ -98,11 +118,12 @@ def food(request):
                 }
                 response_data['food'].append(food_data)
             response_data = json.dumps(response_data, encoding='utf-8', ensure_ascii=False)
-            print "after encoding", type(response_data), response_data
+            # print "after encoding", type(response_data), response_data
         else:
             food_list = list(models.FoodModel.objects.filter(id=choose))
             for p in food_list:
                 food_data = {
+                    'id': p.id,
                     'name': p.name,
                     'img': str(p.img),
                     'canteen': p.canteen.name,
@@ -110,7 +131,7 @@ def food(request):
                 }
                 response_data['food'].append(food_data)
             response_data = json.dumps(response_data, encoding='utf-8', ensure_ascii=False)
-            print "after encoding", type(response_data), response_data
+            # print "after encoding", type(response_data), response_data
 
         return HttpResponse(response_data, content_type='text/json')
     return HttpResponse('error')

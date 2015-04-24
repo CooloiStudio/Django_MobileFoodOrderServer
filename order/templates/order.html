@@ -15,4 +15,13 @@
         </div>
     </div>
     </div>
+
+    {% if order_list %}
+    <div class="container">
+        {% for order in order_list %}
+
+        {% endfor %}
+    </div>
+    {% endif %}
+    <hr/>
 {% endblock %}

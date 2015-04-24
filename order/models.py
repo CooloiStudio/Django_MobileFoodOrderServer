@@ -18,5 +18,10 @@ class FoodModel(models.Model):
 
 class OrderModel(models.Model):
     user = models.IntegerField(default=0)
-    food = models.IntegerField(default=0)
+    address = models.TextField(default=0)
+    confirm = models.BooleanField(default=False)
     time = models.DateTimeField('date published')
+
+class BasketModel(models.Model):
+    order = models.ForeignKey(OrderModel)
+    food = models.IntegerField(default=1)
