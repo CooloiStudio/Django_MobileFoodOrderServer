@@ -90,24 +90,27 @@ def food(request):
         if choose == 0:
             food_list = list(models.FoodModel.objects.all())
             for p in food_list:
-                # print p.name, p.img, p.canteen.name, p.description
                 food_data = {
                     'name': p.name,
                     'img': str(p.img),
                     'canteen': p.canteen.name,
                     'description': p.description
                 }
-                food_data = json.dumps(food_data)
-                food_data = food_data.encode('utf8')
-                food_data = food_data.encode('utf8')
-                food_data = json.loads(food_data)
-                # food_data = str(food_data)
-                # print type(response_data['food']), response_data['food']
-                print type(food_data), food_data
                 response_data['food'].append(food_data)
-                # print response_data['food']
-            response_data = json.dumps(response_data)
-            # response_data = json.dumps(response_data, encoding='utf-8', ensure_ascii=False)
-            # print response_data
-        # return HttpResponse(response_data, content_type='text/json')
+            response_data = json.dumps(response_data, encoding='utf-8', ensure_ascii=False)
+            print "after encoding", type(response_data), response_data
+        else:
+            food_list = list(models.FoodModel.objects.filter(id=choose))
+            for p in food_list:
+                food_data = {
+                    'name': p.name,
+                    'img': str(p.img),
+                    'canteen': p.canteen.name,
+                    'description': p.description
+                }
+                response_data['food'].append(food_data)
+            response_data = json.dumps(response_data, encoding='utf-8', ensure_ascii=False)
+            print "after encoding", type(response_data), response_data
+
+        return HttpResponse(response_data, content_type='text/json')
     return HttpResponse('error')

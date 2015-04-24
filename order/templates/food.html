@@ -16,8 +16,16 @@
         </div>
     </div>
 
+    {% if canteen_list %}
+    <div class="container">
+        <h2>
+            <span class="label label-info">{{ canteen_list.name }}的菜单</span>
+        </h2>
+    </div>
+    {% endif %}
     {% include 'base_food.html' %}
 
+    {% if user.is_superuser %}
     <div class="container">
     <h3>
         <span class="label label-info">添加菜品</span>
@@ -31,4 +39,5 @@
             </form>
         </div>
     </div>
+    {% endif %}
 {% endblock %}

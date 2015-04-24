@@ -8,7 +8,7 @@ from django.views import generic
 from django.contrib import auth
 from django.contrib.auth.models import User
 
-from models import Canteen
+from models import CanteenModel
 from forms import CanteenForm
 from data import ProjectInfo
 from MobileFoodOrderServer import settings
@@ -22,7 +22,7 @@ class CanteenView(generic.View):
         html_title = "食堂中心"
         form = CanteenForm()
 
-        canteen_list = list(Canteen.objects.all())
+        canteen_list = list(CanteenModel.objects.all())
         context = {
             'html_title': html_title,
             'pro': ProjectInfo.data,
@@ -40,7 +40,7 @@ class CanteenView(generic.View):
 def create(request):
     form = CanteenForm(request.POST, request.FILES)
     if form.is_valid():
-        canteen = Canteen(
+        canteen = CanteenModel(
             name=request.POST['name'],
             img=request.FILES['img'],
             description=request.POST['description']

@@ -26,12 +26,14 @@ class IndexView(generic.View):
 
         url_name = "home"
         html_title = "老干爹订餐"
-        canteen_list = list(models.Canteen.objects.all())
+        canteen_list = list(models.CanteenModel.objects.all())
+        food_list = list(models.FoodModel.objects.all())
         context = {
             'html_title': html_title,
             'pro': data.ProjectInfo.data,
             'url_name': url_name,
             'canteen_list': canteen_list,
+            'food_list': food_list,
             'STATIC_URL': settings.STATIC_URL
         }
         return render(
@@ -46,24 +48,6 @@ class RegistView(generic.View):
     def get(self, request):
         url_name = "regist"
         html_title = "注册中心"
-        context = {
-            'html_title': html_title,
-            'pro': data.ProjectInfo.data,
-            'url_name': url_name,
-        }
-        return render(
-            request,
-            self.template_name,
-            context
-        )
-
-# @login_required(login_url='/login')
-class OrderView(generic.View):
-    template_name = 'order/templates/order.html'
-
-    def get(self, request):
-        url_name = "order"
-        html_title = "订单中心"
         context = {
             'html_title': html_title,
             'pro': data.ProjectInfo.data,

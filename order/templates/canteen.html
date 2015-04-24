@@ -18,6 +18,7 @@
 
 {% include 'base_canteen.html' %}
 
+    {% if user.is_superuser %}
     <div class="container">
     <h3>
         <span class="label label-info">添加食堂</span>
@@ -31,4 +32,5 @@
             </form>
         </div>
     </div>
+    {% endif %}
 {% endblock %}

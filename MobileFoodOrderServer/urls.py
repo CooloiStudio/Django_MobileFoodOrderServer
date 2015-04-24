@@ -1,7 +1,7 @@
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
 
-from order import views, client, canteen, food
+from order import views, client, canteen, food, order
 
 urlpatterns = patterns('',
     # Examples:
@@ -16,9 +16,6 @@ urlpatterns = patterns('',
 
     # ex: /regist
     url(r'^regist/$', views.RegistView.as_view(), name='regist'),
-
-    # ex: /order
-    url(r'^order/$', views.OrderView.as_view(), name='order'),
 
     # ex: /accounts/login
     (r'^accounts/login/$', views.InfoView.as_view()),
@@ -61,4 +58,7 @@ urlpatterns = patterns('',
 
     # ex: /foodcreate
     url(r'^foodcreate/$', food.create, name='foodcreate'),
+
+    # ex: /order
+    url(r'^order/$', order.OrderView.as_view(), name='order'),
 )
