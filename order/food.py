@@ -48,6 +48,7 @@ def create(request):
             canteen=CanteenModel.objects.filter(id=request.POST['canteen'])[0],
             name=request.POST['name'],
             img=request.FILES['img'],
+            price=request.POST['price'],
             description=request.POST['description']
         )
         print food

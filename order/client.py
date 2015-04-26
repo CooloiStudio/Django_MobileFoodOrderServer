@@ -30,6 +30,7 @@ def register(request):
                 'response': 'error'
             }
         return HttpResponse(json.dumps(response_data), content_type='text/json')
+    return HttpResponse("unknown error")
 
 def login(request):
     print request.POST
@@ -112,13 +113,13 @@ def food(request):
                 food_data = {
                     'id': p.id,
                     'name': p.name,
+                    'price': str(p.price),
                     'img': str(p.img),
                     'canteen': p.canteen.name,
                     'description': p.description
                 }
                 response_data['food'].append(food_data)
             response_data = json.dumps(response_data, encoding='utf-8', ensure_ascii=False)
-            # print "after encoding", type(response_data), response_data
         else:
             food_list = list(models.FoodModel.objects.filter(id=choose))
             for p in food_list:

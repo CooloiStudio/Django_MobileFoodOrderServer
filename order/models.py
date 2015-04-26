@@ -13,12 +13,14 @@ class CanteenModel(models.Model):
 class FoodModel(models.Model):
     canteen = models.ForeignKey(CanteenModel)
     name = models.CharField(max_length=20)
+    price = models.FloatField(default=0.0)
     img = models.ImageField(upload_to='order/static/img')
     description = models.TextField()
 
 class OrderModel(models.Model):
     user = models.IntegerField(default=0)
-    address = models.TextField(default=0)
+    price = models.FloatField(default=0.0)
+    address = models.TextField()
     confirm = models.BooleanField(default=False)
     time = models.DateTimeField('date published')
 

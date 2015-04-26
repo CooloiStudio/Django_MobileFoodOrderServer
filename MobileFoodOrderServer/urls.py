@@ -35,6 +35,10 @@ urlpatterns = patterns('',
     # ex: /regist
     url(r'^register/$', views.register, name='register'),
 
+    # client
+    # ex: /clientregist
+    url(r'^clientregist/$', client.register, name='clientregist'),
+
     # ex: /clientlogin
     url(r'^clientlogin/$', client.login, name='clientlogin'),
 
@@ -47,18 +51,21 @@ urlpatterns = patterns('',
     # ex: /clientfood
     url(r'^clientfood/$', client.food, name='food'),
 
+    # canteen
     # ex: /canteen
     url(r'^canteen/$', canteen.CanteenView.as_view(), name='canteen'),
 
     # ex: /canteencreate
     url(r'^canteencreate/$', canteen.create, name='canteencreate'),
 
+    # food
     # ex: /food
     url(r'^food/$', food.FoodView.as_view(), name='food'),
 
     # ex: /foodcreate
     url(r'^foodcreate/$', food.create, name='foodcreate'),
 
+    # order
     # ex: /order
     url(r'^order/$', order.OrderView.as_view(), name='order'),
 )
