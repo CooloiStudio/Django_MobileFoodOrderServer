@@ -17,8 +17,16 @@ from MobileFoodOrderServer import settings
 # @login_required(login_url='/login')
 class OrderView(generic.View):
     template_name = 'order/templates/order.html'
+    url_name = "order"
+    html_title = "订单中心"
 
-    def food(request):
+    context = {
+        'html_title': html_title,
+        'pro': data.ProjectInfo.data,
+        'url_name': url_name
+    }
+
+    def food(self, request):
         print "food method"
         food = request.GET['food']
         order = list(OrderModel.objects.filter(user=request.user.id, confirm=False))
@@ -38,54 +46,56 @@ class OrderView(generic.View):
             food=food
         )
         p.save()
-        basket_list = list(BasketModel.objects.filter(order=order))
-        food_list = []
-        order_price = 0
-        for basket in basket_list:
-            p = list(FoodModel.objects.filter(id=basket.food))
-            food_list = food_list + p
-            order_price = order_price + p.pop().price
-        order.price = order_price
-        order.save()
-        food_mothed_data = {
-            'order': order,
-            'food_list': food_list
-        }
-        return food_mothed_data
+        self.getorderinfo(order)
 
-    def order(request):
+    def order(self, request):
         print "oreder method"
-        # print request.GET['order']
-        return 0
+        order = list(OrderModel.objects.filter(id=request.GET['order'], user=request.user.id))
 
-    def basket(request):
+        if not order:
+            return HttpResponse('error')
+
+        order = order.pop()
+        self.getorderinfo(order)
+
+    def basket(self, request):
         print "basket method"
         if 'baseket' in list(request.GET):
             return 0
         return 0
+
+    def getorderinfo(self, order):
+        basket_list = list(BasketModel.objects.filter(order=order))
+        food_list = []
+        order_price = 0.0
+        for basket in basket_list:
+            p = list(FoodModel.objects.filter(id=basket.food))
+            food_list = food_list + p
+            order_price = order_price + p.pop().price
+        food_list.reverse()
+        order.price = order_price
+        order.save()
+        self.context['order'] = order
+        self.context['food_list'] = food_list
+
     method = {
         'food': food,
         'order': order,
         'basket': basket
     }
+
     def get(self, request):
-        url_name = "order"
-        html_title = "订单中心"
+
+        if request.GET:
+            self.method[list(request.GET).pop()](self, request)
 
         order_list = list(OrderModel.objects.filter(user=request.user.id))
-        context = {
-            'html_title': html_title,
-            'pro': data.ProjectInfo.data,
-            'url_name': url_name,
-            'order_list': order_list
-        }
-        if request.GET:
-            method_data = self.method[list(request.GET).pop()](request)
-            context = dict(context.items() + method_data.items())
+        order_list.reverse()
+        self.context['order_list'] = order_list
         return render(
             request,
             self.template_name,
-            context
+            self.context
         )
 
 def create(request):
