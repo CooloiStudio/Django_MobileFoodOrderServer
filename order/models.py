@@ -22,6 +22,7 @@ class OrderModel(models.Model):
     price = models.FloatField(default=0.0)
     address = models.TextField()
     confirm = models.BooleanField(default=False)
+    deal = models.BooleanField(default=False)
     time = models.DateTimeField('date published')
 
 class BasketModel(models.Model):

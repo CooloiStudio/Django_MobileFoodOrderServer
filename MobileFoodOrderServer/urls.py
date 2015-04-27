@@ -68,4 +68,10 @@ urlpatterns = patterns('',
     # order
     # ex: /order
     url(r'^order/$', order.OrderView.as_view(), name='order'),
+
+    # ex: /orderconfirm
+    url(r'^orderconfirm/$', order.confirm, name='orderconfirm'),
+
+    # ex: /orderdeal
+    url(r'^orderdeal/$', order.deal, name='orderdeal'),
 )

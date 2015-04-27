@@ -28,6 +28,8 @@ class OrderView(generic.View):
 
     def food(self, request):
         print "food method"
+        if request.user.is_superuser:
+            return
         food = request.GET['food']
         order = list(OrderModel.objects.filter(user=request.user.id, confirm=False))
         if not order:
@@ -50,19 +52,16 @@ class OrderView(generic.View):
 
     def order(self, request):
         print "oreder method"
-        order = list(OrderModel.objects.filter(id=request.GET['order'], user=request.user.id))
+        if request.user.is_superuser:
+            order = list(OrderModel.objects.filter(id=request.GET['order'], confirm=True))
+        else:
+            order = list(OrderModel.objects.filter(id=request.GET['order'], user=request.user.id))
 
         if not order:
             return HttpResponse('error')
 
         order = order.pop()
         self.getorderinfo(order)
-
-    def basket(self, request):
-        print "basket method"
-        if 'baseket' in list(request.GET):
-            return 0
-        return 0
 
     def getorderinfo(self, order):
         basket_list = list(BasketModel.objects.filter(order=order))
@@ -80,8 +79,7 @@ class OrderView(generic.View):
 
     method = {
         'food': food,
-        'order': order,
-        'basket': basket
+        'order': order
     }
 
     def get(self, request):
@@ -89,7 +87,10 @@ class OrderView(generic.View):
         if request.GET:
             self.method[list(request.GET).pop()](self, request)
 
-        order_list = list(OrderModel.objects.filter(user=request.user.id))
+        if request.user.is_superuser:
+            order_list = list(OrderModel.objects.filter(confirm=True))
+        else:
+            order_list = list(OrderModel.objects.filter(user=request.user.id))
         order_list.reverse()
         self.context['order_list'] = order_list
         return render(
@@ -98,8 +99,26 @@ class OrderView(generic.View):
             self.context
         )
 
-def create(request):
+def deal(request):
+    if request.method == 'POST':
+        order_id = request.POST['order_id']
+        order = list(OrderModel.objects.filter(id=order_id)).pop()
+        if order.confirm:
+            order.deal = True
+            order.save()
+        return HttpResponseRedirect(reverse('order'))
     if request.method == 'GET':
         return HttpResponse("error")
 
+    return HttpResponse("None")
+
+def confirm(request):
+    if request.method == 'POST':
+        order_id = request.POST['order_id']
+        order_address = request.POST['address']
+        order = list(OrderModel.objects.filter(id=order_id)).pop()
+        order.address = order_address
+        order.confirm = True
+        order.save()
+        return HttpResponseRedirect(reverse('order'))
     return HttpResponse("None")
