@@ -5,6 +5,7 @@ from django.http import HttpResponseRedirect, HttpResponse, StreamingHttpRespons
 from django.core.urlresolvers import reverse
 from django.shortcuts import render
 from django.views import generic
+from django.utils import timezone
 from django.contrib import auth
 from django.contrib.auth.models import User
 
@@ -220,9 +221,72 @@ def add_to_order(request):
         user = auth.authenticate(username=username, password=password)
 
         if 'food' in data:
+            food_id = request.GET['food']
+            order_list = list(models.OrderModel.objects.filter(user=user.id, confirm=False))
+            if not order_list:
+                p = models.OrderModel(
+                    user=request.user.id,
+                    address='',
+                    confirm=False,
+                    time=timezone.now()
+                )
+                p.save()
+                order_object = p
+            else:
+                order_object = order_list.pop()
+            p = models.BasketModel(
+                order=order_object,
+                food=food_id
+            )
+            p.save()
 
-            return
-    return
+            basket_list = list(models.BasketModel.objects.filter(order=order_object))
+            if not basket_list:
+                return HttpResponse("error")
+            food_list = []
+            order_price = 0.0
+            for basket in basket_list:
+                p = list(models.FoodModel.objects.filter(id=basket.food)).pop()
+                food_data = {
+                    'id': p.id,
+                    'name': p.name,
+                    'img': str(p.img),
+                    'canteen': p.canteen.name,
+                    'description': p.description
+                }
+                food_list.append(food_data)
+                order_price = order_price + p.price
+            food_list.reverse()
+            order_object.price = order_price
+            order_object.save()
+            p = order_object
+            order_data = {
+                'id': str(p.id),
+                'price': str(p.price),
+                'address': p.address,
+                'time': str(p.time),
+                'confirm': str(p.confirm),
+                'deal': str(p.deal)
+            }
+            response_data['order'] = order_data
+            response_data['food'] = food_data
+            response_data = json.dumps(response_data, encoding='utf-8', ensure_ascii=False)
+            return HttpResponse(response_data, content_type='text/json')
 
 def order_confirm(request):
-    return
+    if request.method == 'POST':
+        response_data = {
+            'response': 'succeed'
+        }
+        data = json.loads(request.body)
+        username = data['username']
+        password = data['password']
+        user = auth.authenticate(username=username, password=password)
+        order_id = data['order_id']
+        order_address = data['address']
+        order = list(models.OrderModel.objects.filter(id=order_id, user=user.id)).pop()
+        order.address = order_address
+        order.confirm = True
+        order.save()
+        response_data = json.dumps(response_data, encoding='utf-8', ensure_ascii=False)
+        return HttpResponse(response_data, content_type='text/json')
