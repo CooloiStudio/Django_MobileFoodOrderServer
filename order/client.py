@@ -270,8 +270,12 @@ def add_to_order(request):
             }
             response_data['order'] = order_data
             response_data['food'] = food_data
-            response_data = json.dumps(response_data, encoding='utf-8', ensure_ascii=False)
-            return HttpResponse(response_data, content_type='text/json')
+    else:
+        response_data = {
+            'response': 'error'
+        }
+    response_data = json.dumps(response_data, encoding='utf-8', ensure_ascii=False)
+    return HttpResponse(response_data, content_type='text/json')
 
 def order_confirm(request):
     if request.method == 'POST':
