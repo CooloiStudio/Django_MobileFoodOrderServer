@@ -37,19 +37,28 @@ urlpatterns = patterns('',
 
     # client
     # ex: /clientregist
-    url(r'^clientregist/$', client.register, name='clientregist'),
+    url(r'^clientregist/$', client.register, name='client_regist'),
 
     # ex: /clientlogin
-    url(r'^clientlogin/$', client.login, name='clientlogin'),
+    url(r'^clientlogin/$', client.login, name='client_login'),
 
     # ex: /clientlogout
-    url(r'^clientlogout/$', client.logout, name='clientlogout'),
+    url(r'^clientlogout/$', client.logout, name='client_logout'),
 
     # ex: /clientuserinfo
-    url(r'^clientuserinfo/$', client.userinfo, name='clientuserinfo'),
+    url(r'^clientuserinfo/$', client.user_info, name='client_user_info'),
 
     # ex: /clientfood
-    url(r'^clientfood/$', client.food, name='food'),
+    url(r'^clientfood/$', client.food, name='client_food'),
+
+    # ex: /clientorder
+    url(r'^clientorder/$', client.order, name='client_order'),
+
+    # ex: /clientaddtoorder
+    url(r'^clientaddtoorder/$', client.add_to_order, name='client_add_to_order'),
+
+    # ex: /clientorderconfirm
+    url(r'^clientorderconfirm/$', client.order_confirm, name='client_order_confirm'),
 
     # canteen
     # ex: /canteen

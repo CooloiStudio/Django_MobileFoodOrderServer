@@ -42,11 +42,17 @@ def login(request):
         password = data['password']
         user = auth.authenticate(username=username, password=password)
         if user is not None:
-            auth.login(request, user)
-            response_data = {
-                'response': 'succeed',
-                'username': request.user.username
-            }
+            if user.is_superuser:
+                response_data = {
+                    'response': 'error',
+                    'username': request.user.username
+                }
+            else:
+                auth.login(request, user)
+                response_data = {
+                    'response': 'succeed',
+                    'username': request.user.username
+                }
         else:
             response_data = {
                 'response': 'error',
@@ -56,7 +62,7 @@ def login(request):
         print response_data
         return HttpResponse(response_data, content_type='text/json')
 
-def changepw(request):
+def change_pw(request):
     if request.method == 'GET':
         return HttpResponse()
 
@@ -68,7 +74,7 @@ def logout(request):
         }
         return HttpResponse(json.dumps(response_data), content_type='text/json')
 
-def userinfo(request):
+def user_info(request):
     print "request.POST", request.POST
     if request.method == 'GET':
         print "GET request.user", request.user
@@ -136,3 +142,87 @@ def food(request):
 
         return HttpResponse(response_data, content_type='text/json')
     return HttpResponse('error')
+
+def order(request):
+    print "client.order"
+    if request.method == 'POST':
+        response_data = {
+            'response': 'succeed',
+            'STATIC_URL': settings.STATIC_URL,
+            'order': []
+        }
+
+        data = json.loads(request.body)
+        username = data['username']
+        password = data['password']
+        user = auth.authenticate(username=username, password=password)
+        if 'order' in data:
+            order_id = data['order']
+            order_list = list(models.OrderModel.objects.filter(user=user.id, id=order_id))
+            if order_list:
+                order_object = order_list.pop()
+                basket_list = list(models.BasketModel.objects.filter(order=order_object))
+                if not basket_list:
+                    return HttpResponse("error")
+                food_list = []
+                order_price = 0.0
+                for basket in basket_list:
+                    p = list(models.FoodModel.objects.filter(id=basket.food)).pop()
+                    food_data = {
+                        'id': p.id,
+                        'name': p.name,
+                        'img': str(p.img),
+                        'canteen': p.canteen.name,
+                        'description': p.description
+                    }
+                    food_list.append(food_data)
+                    order_price = order_price + p.price
+                food_list.reverse()
+                order_object.price = order_price
+                order_object.save()
+                p = order_object
+                order_data = {
+                    'id': str(p.id),
+                    'price': str(p.price),
+                    'address': p.address,
+                    'time': str(p.time),
+                    'confirm': str(p.confirm),
+                    'deal': str(p.deal)
+                }
+                response_data['order'] = order_data
+                response_data['food'] = food_data
+        else:
+            order_list = list(models.OrderModel.objects.filter(user=user.id))
+            for p in order_list:
+                order_data = {
+                    'id': str(p.id),
+                    'price': str(p.price),
+                    'address': p.address,
+                    'time': str(p.time),
+                    'confirm': str(p.confirm),
+                    'deal': str(p.deal)
+                }
+                response_data['order'].append(order_data)
+        response_data = json.dumps(response_data, encoding='utf-8', ensure_ascii=False)
+        return HttpResponse(response_data, content_type='text/json')
+
+def add_to_order(request):
+    if request.method == 'POST':
+        response_data = {
+            'response': 'succeed',
+            'STATIC_URL': settings.STATIC_URL,
+            'order': []
+        }
+
+        data = json.loads(request.body)
+        username = data['username']
+        password = data['password']
+        user = auth.authenticate(username=username, password=password)
+
+        if 'food' in data:
+
+            return
+    return
+
+def order_confirm(request):
+    return
