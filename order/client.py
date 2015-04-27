@@ -186,7 +186,7 @@ def order(request):
                     'id': str(p.id),
                     'price': str(p.price),
                     'address': p.address,
-                    'time': str(p.time),
+                    'time': str(p.time)[0:19],
                     'confirm': str(p.confirm),
                     'deal': str(p.deal)
                 }
@@ -199,7 +199,7 @@ def order(request):
                     'id': str(p.id),
                     'price': str(p.price),
                     'address': p.address,
-                    'time': str(p.time),
+                    'time': str(p.time)[0:19],
                     'confirm': str(p.confirm),
                     'deal': str(p.deal)
                 }
@@ -264,7 +264,7 @@ def add_to_order(request):
                 'id': str(p.id),
                 'price': str(p.price),
                 'address': p.address,
-                'time': str(p.time),
+                'time': str(p.time)[0:18],
                 'confirm': str(p.confirm),
                 'deal': str(p.deal)
             }
