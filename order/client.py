@@ -183,7 +183,7 @@ def order(request):
                 order_object.save()
                 p = order_object
                 order_data = {
-                    'id': str(p.id),
+                    'id': p.id,
                     'price': str(p.price),
                     'address': p.address,
                     'time': str(p.time)[0:19],
@@ -191,12 +191,12 @@ def order(request):
                     'deal': str(p.deal)
                 }
                 response_data['order'] = order_data
-                response_data['food'] = food_data
+                response_data['food'] = food_list
         else:
             order_list = list(models.OrderModel.objects.filter(user=user.id))
             for p in order_list:
                 order_data = {
-                    'id': str(p.id),
+                    'id': p.id,
                     'price': str(p.price),
                     'address': p.address,
                     'time': str(p.time)[0:19],
@@ -261,7 +261,7 @@ def add_to_order(request):
             order_object.save()
             p = order_object
             order_data = {
-                'id': str(p.id),
+                'id': p.id,
                 'price': str(p.price),
                 'address': p.address,
                 'time': str(p.time)[0:18],
