@@ -133,6 +133,7 @@ def food(request):
                 food_data = {
                     'id': p.id,
                     'name': p.name,
+                    'price': str(p.price),
                     'img': str(p.img),
                     'canteen': p.canteen.name,
                     'description': p.description
@@ -172,6 +173,7 @@ def order(request):
                     food_data = {
                         'id': p.id,
                         'name': p.name,
+                        'price': str(p.price),
                         'img': str(p.img),
                         'canteen': p.canteen.name,
                         'description': p.description
@@ -204,10 +206,12 @@ def order(request):
                     'deal': str(p.deal)
                 }
                 response_data['order'].append(order_data)
+                response_data['order'].reverse()
         response_data = json.dumps(response_data, encoding='utf-8', ensure_ascii=False)
         return HttpResponse(response_data, content_type='text/json')
 
 def add_to_order(request):
+    print "client method add_to_order", request.POST
     if request.method == 'POST':
         response_data = {
             'response': 'succeed',
@@ -221,7 +225,7 @@ def add_to_order(request):
         user = auth.authenticate(username=username, password=password)
 
         if 'food' in data:
-            food_id = request.GET['food']
+            food_id = data['food']
             order_list = list(models.OrderModel.objects.filter(user=user.id, confirm=False))
             if not order_list:
                 p = models.OrderModel(
@@ -243,20 +247,20 @@ def add_to_order(request):
             basket_list = list(models.BasketModel.objects.filter(order=order_object))
             if not basket_list:
                 return HttpResponse("error")
-            food_list = []
+            # food_list = []
             order_price = 0.0
             for basket in basket_list:
                 p = list(models.FoodModel.objects.filter(id=basket.food)).pop()
-                food_data = {
-                    'id': p.id,
-                    'name': p.name,
-                    'img': str(p.img),
-                    'canteen': p.canteen.name,
-                    'description': p.description
-                }
-                food_list.append(food_data)
+                # food_data = {
+                #     'id': p.id,
+                #     'name': p.name,
+                #     'img': str(p.img),
+                #     'canteen': p.canteen.name,
+                #     'description': p.description
+                # }
+                # food_list.append(food_data)
                 order_price = order_price + p.price
-            food_list.reverse()
+            # food_list.reverse()
             order_object.price = order_price
             order_object.save()
             p = order_object
@@ -269,7 +273,7 @@ def add_to_order(request):
                 'deal': str(p.deal)
             }
             response_data['order'] = order_data
-            response_data['food'] = food_data
+            # response_data['food'] = food_list
     else:
         response_data = {
             'response': 'error'
