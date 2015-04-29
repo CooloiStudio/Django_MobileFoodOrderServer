@@ -169,7 +169,7 @@ def order(request):
                 food_list = []
                 order_price = 0.0
                 for basket in basket_list:
-                    p = list(models.FoodModel.objects.filter(id=basket.food)).pop()
+                    p = list(models.FoodModel.objects.filter(id=basket.food.id)).pop()
                     food_data = {
                         'id': p.id,
                         'name': p.name,
@@ -225,11 +225,12 @@ def add_to_order(request):
         user = auth.authenticate(username=username, password=password)
 
         if 'food' in data:
-            food_id = data['food']
+            food_id = int(data['food'])
             order_list = list(models.OrderModel.objects.filter(user=user.id, confirm=False))
+            print "order_list", order_list
             if not order_list:
                 p = models.OrderModel(
-                    user=request.user.id,
+                    user=user.id,
                     address='',
                     confirm=False,
                     time=timezone.now()
@@ -238,11 +239,18 @@ def add_to_order(request):
                 order_object = p
             else:
                 order_object = order_list.pop()
-            p = models.BasketModel(
-                order=order_object,
-                food=food_id
-            )
-            p.save()
+            food_list = list(models.FoodModel.objects.filter(id=food_id))
+            print "food_list", food_list
+            if food_list:
+                food_object = food_list.pop()
+                p = models.BasketModel(
+                    order=order_object,
+                    food=food_object
+                )
+                p.save()
+            else:
+                print "error food id"
+                return HttpResponse("error food id")
 
             basket_list = list(models.BasketModel.objects.filter(order=order_object))
             if not basket_list:
@@ -250,7 +258,7 @@ def add_to_order(request):
             # food_list = []
             order_price = 0.0
             for basket in basket_list:
-                p = list(models.FoodModel.objects.filter(id=basket.food)).pop()
+                p = list(models.FoodModel.objects.filter(id=basket.food.id)).pop()
                 # food_data = {
                 #     'id': p.id,
                 #     'name': p.name,
@@ -282,6 +290,7 @@ def add_to_order(request):
     return HttpResponse(response_data, content_type='text/json')
 
 def order_confirm(request):
+    print "client method order_confirm", request.POST
     if request.method == 'POST':
         response_data = {
             'response': 'succeed'

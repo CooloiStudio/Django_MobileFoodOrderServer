@@ -26,5 +26,5 @@ class OrderModel(models.Model):
     time = models.DateTimeField('date published')
 
 class BasketModel(models.Model):
+    food = models.ForeignKey(FoodModel)
     order = models.ForeignKey(OrderModel)
-    food = models.IntegerField(default=1)

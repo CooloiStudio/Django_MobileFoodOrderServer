@@ -68,7 +68,7 @@ class OrderView(generic.View):
         food_list = []
         order_price = 0.0
         for basket in basket_list:
-            p = list(FoodModel.objects.filter(id=basket.food))
+            p = list(FoodModel.objects.filter(id=basket.food.id))
             food_list = food_list + p
             order_price = order_price + p.pop().price
         food_list.reverse()
