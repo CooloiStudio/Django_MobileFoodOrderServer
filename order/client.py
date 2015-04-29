@@ -306,4 +306,5 @@ def order_confirm(request):
         order.confirm = True
         order.save()
         response_data = json.dumps(response_data, encoding='utf-8', ensure_ascii=False)
+        print response_data
         return HttpResponse(response_data, content_type='text/json')
