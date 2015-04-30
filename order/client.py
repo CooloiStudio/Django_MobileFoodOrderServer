@@ -1,10 +1,7 @@
 #coding=utf-8
 __author__ = 'esoragoto'
 
-from django.http import HttpResponseRedirect, HttpResponse, StreamingHttpResponse
-from django.core.urlresolvers import reverse
-from django.shortcuts import render
-from django.views import generic
+from django.http import HttpResponse
 from django.utils import timezone
 from django.contrib import auth
 from django.contrib.auth.models import User
@@ -153,7 +150,6 @@ def order(request):
             'STATIC_URL': settings.STATIC_URL,
             'order': []
         }
-
         data = json.loads(request.body)
         username = data['username']
         password = data['password']

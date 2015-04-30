@@ -1,20 +1,15 @@
 #coding=utf-8
 __author__ = 'esoragoto'
 
-from django.http import HttpResponseRedirect, HttpResponse, StreamingHttpResponse
+from django.http import HttpResponseRedirect, HttpResponse
 from django.core.urlresolvers import reverse
 from django.shortcuts import render
 from django.views import generic
-from django.contrib import auth
 from django.utils import timezone
-from django.contrib.auth.models import User
 
-from models import FoodModel, CanteenModel, OrderModel, BasketModel
-from forms import FoodForm
+from models import FoodModel, OrderModel, BasketModel
 import data
-from MobileFoodOrderServer import settings
 
-# @login_required(login_url='/login')
 class OrderView(generic.View):
     template_name = 'order/templates/order.html'
     url_name = "order"
