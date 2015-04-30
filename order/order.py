@@ -30,7 +30,10 @@ class OrderView(generic.View):
         print "food method"
         if request.user.is_superuser:
             return
-        food = request.GET['food']
+        food_id = request.GET['food']
+        food_list = list(FoodModel.objects.filter(id=food_id))
+        if not food_list:
+            return
         order = list(OrderModel.objects.filter(user=request.user.id, confirm=False))
         if not order:
             p = OrderModel(
@@ -43,9 +46,10 @@ class OrderView(generic.View):
             order = p
         else:
             order = order.pop()
+        food_object = food_list.pop()
         p = BasketModel(
             order=order,
-            food=food
+            food=food_object
         )
         p.save()
         self.getorderinfo(order)
