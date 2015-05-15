@@ -74,6 +74,9 @@ urlpatterns = patterns('',
     # ex: /foodcreate
     url(r'^foodcreate/$', food.create, name='foodcreate'),
 
+    # ex: /fooddelete
+    url(r'^fooddelete/$', food.delete, name='fooddelete'),
+
     # order
     # ex: /order
     url(r'^order/$', order.OrderView.as_view(), name='order'),

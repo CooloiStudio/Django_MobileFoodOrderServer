@@ -54,3 +54,8 @@ def create(request):
         print food
         food.save()
     return HttpResponseRedirect(reverse('food'))
+
+def delete(request):
+    food_id = request.POST['food_id']
+    FoodModel.objects.filter(id=food_id).delete()
+    return HttpResponseRedirect(reverse('food'))
